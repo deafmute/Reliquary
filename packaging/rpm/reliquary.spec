@@ -7,7 +7,7 @@ Release:        1%{?dist}
 Summary:        A GNOME database client for SQLite, PostgreSQL and MySQL
 
 License:        GPL-3.0-or-later
-URL:            https://github.com/jjahoda/reliquary
+URL:            https://github.com/deafmute/reliquary
 BuildArch:      noarch
 
 Source0:        %{srcname}-%{version}.tar.gz
