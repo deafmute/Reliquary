@@ -1,0 +1,57 @@
+/* Reliquary — application stylesheet */
+
+/* ── Sidebar ──────────────────────────────────────────────────────────── */
+
+/* Give the sidebar a proper background so it matches the window chrome */
+.navigation-sidebar {
+  background-color: @sidebar_bg_color;
+}
+
+.navigation-sidebar > row {
+  padding: 0;
+  min-height: 34px;
+}
+
+.navigation-sidebar treeexpander {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* ── Typography helpers ───────────────────────────────────────────────── */
+
+.bold {
+  font-weight: bold;
+}
+
+/* ── Tag / badge pills (schema breadcrumb) ───────────────────────────── */
+.tag {
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 0.85em;
+}
+
+/* ── Results / data table ─────────────────────────────────────────────── */
+
+.data-table {
+  font-family: monospace;
+  font-size: 0.88em;
+}
+
+.data-table columnview > listview > row {
+  min-height: 28px;
+}
+
+/* ── Numeric column ───────────────────────────────────────────────────── */
+.numeric {
+  font-variant-numeric: tabular-nums;
+  color: alpha(currentColor, 0.45);
+}
+
+/* ── Toolbar container (used inside ToolbarView) ──────────────────────── */
+/* No explicit border — Adw.ToolbarView handles the separator/shadow */
+
+/* ── Source view ──────────────────────────────────────────────────────── */
+.editor-frame {
+  border: none;
+  border-radius: 0;
+}

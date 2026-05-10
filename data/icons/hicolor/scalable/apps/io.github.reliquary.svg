@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+
+    <!-- Background plate — GNOME blue, top-to-bottom -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0"   stop-color="#62a0ea"/>
+      <stop offset="1"   stop-color="#1a5fb4"/>
+    </linearGradient>
+
+    <!-- Plate specular highlight (top-left radial glow) -->
+    <radialGradient id="shine" cx="38%" cy="18%" r="54%">
+      <stop offset="0"   stop-color="#ffffff" stop-opacity="0.20"/>
+      <stop offset="1"   stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Cylinder body face — horizontal side-lighting, centre brightest -->
+    <linearGradient id="face" x1="30" y1="0" x2="98" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0"    stop-color="#c2dbf2"/>
+      <stop offset="0.38" stop-color="#ffffff"/>
+      <stop offset="1"    stop-color="#aecce8"/>
+    </linearGradient>
+
+    <!-- Disk cap top-surface — cross highlight, rim darker than centre -->
+    <linearGradient id="cap" x1="30" y1="0" x2="98" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0"   stop-color="#8ab8dc"/>
+      <stop offset="0.5" stop-color="#ddeeff"/>
+      <stop offset="1"   stop-color="#8ab8dc"/>
+    </linearGradient>
+
+    <!-- Drop shadow for the cylinder group -->
+    <filter id="dropshadow" x="-20%" y="-12%" width="140%" height="136%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5"
+                    flood-color="#000000" flood-opacity="0.26"/>
+    </filter>
+
+  </defs>
+
+  <!-- ── Background plate (squircle) ────────────────────────────────────── -->
+  <rect width="128" height="128" rx="26" fill="url(#bg)"/>
+  <rect width="128" height="128" rx="26" fill="url(#shine)"/>
+
+  <!-- ── Database cylinder — three stacked disk layers ─────────────────── -->
+  <!--
+      Geometry:
+        cx=64, rx=34, ry=8
+        Top cap:    y=26   (top of icon body: y=18, margin ≈18 px)
+        Divider 1:  y=51
+        Divider 2:  y=76
+        Bottom cap: y=101  (bottom of icon body: y=109, margin ≈19 px)
+
+      Visible body strips between the caps (each ≈ 9 px):
+        Strip 1: y=34 → y=43   (top cap bottom → divider 1 top)
+        Strip 2: y=59 → y=68   (divider 1 bottom → divider 2 top)
+        Strip 3: y=84 → y=93   (divider 2 bottom → bottom cap top)
+  -->
+  <g filter="url(#dropshadow)">
+
+    <!-- Cylinder body — the vertical face between top and bottom caps -->
+    <rect x="30" y="26" width="68" height="75" fill="url(#face)"/>
+
+    <!-- Bottom cap (full ellipse — its lower arc closes the cylinder) -->
+    <ellipse cx="64" cy="101" rx="34" ry="8" fill="url(#cap)"/>
+
+    <!-- Divider ring — separates layer 2 from layer 3 -->
+    <ellipse cx="64" cy="76"  rx="34" ry="8" fill="url(#cap)"/>
+
+    <!-- Divider ring — separates layer 1 from layer 2 -->
+    <ellipse cx="64" cy="51"  rx="34" ry="8" fill="url(#cap)"/>
+
+    <!-- Top cap (drawn last so it appears on top) -->
+    <ellipse cx="64" cy="26"  rx="34" ry="8" fill="url(#cap)"/>
+
+  </g>
+
+</svg>

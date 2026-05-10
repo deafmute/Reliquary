@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "reliquary"
+version = "0.1.0"
+description = "GTK4/GNOME database tool"
+requires-python = ">=3.11"
+dependencies = [
+    "SQLAlchemy>=2.0",
+    "psycopg2-binary",
+    "PyMySQL",
+]
+
+[project.scripts]
+reliquary = "reliquary.application:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["reliquary*"]
+
+[tool.setuptools.package-data]
+"reliquary" = ["style.css"]
+
+[tool.setuptools.data-files]
+"share/icons/hicolor/scalable/apps" = [
+    "data/icons/hicolor/scalable/apps/io.github.reliquary.svg",
+]
+"share/applications" = [
+    "packaging/io.github.reliquary.desktop",
+]
