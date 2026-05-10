@@ -1,0 +1,15 @@
+#!/bin/bash
+# AppImage launcher for Reliquary
+# GTK4, libadwaita, GtkSourceView5, and python3-gi must be installed on the host.
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+# Prepend bundled Python packages (sqlalchemy, psycopg2-binary, pymysql, etc.)
+export PYTHONPATH="$HERE/opt/reliquary:$HERE/opt/reliquary/lib${PYTHONPATH:+:$PYTHONPATH}"
+
+exec python3 -c "
+import sys
+from reliquary.application import ReliquaryApp
+app = ReliquaryApp()
+sys.exit(app.run(sys.argv))
+" "$@"
