@@ -424,6 +424,7 @@ class SidebarWidget(Gtk.Box):
         cfg = self._window.manager.get(config_id)
         if not cfg:
             return
+        db     = self._window.get_connection(config_id)
         table  = node.get_table()
         schema = node.get_schema()
         qualified = f'"{schema}"."{table}"' if schema else f'"{table}"'
@@ -491,11 +492,7 @@ class SidebarWidget(Gtk.Box):
     def _show_create_table_dialog(self, cfg, db, schema):
         from .create_table_dialog import CreateTableDialog
         def on_created():
-            # Refresh schema in sidebar
-            node = self._connection_nodes.get(cfg.id)
-            if node:
-                node.set_children_store(None)
-            self._list_view.queue_draw()
+            self._refresh_connection_node(cfg.id)
         dialog = CreateTableDialog(
             window=self._window,
             db=db,
@@ -530,17 +527,24 @@ class SidebarWidget(Gtk.Box):
                 with db._engine.connect() as conn:
                     conn.execute(text(f'DROP {kind.upper()} {qualified}'))
                     conn.commit()
-                node = self._connection_nodes.get(cfg.id)
-                if node:
-                    node.set_children_store(None)
                 GLib.idle_add(lambda: (
+                    self._refresh_connection_node(cfg.id),
                     self._window.toast(f'Dropped {qualified}'),
-                    self._list_view.queue_draw(),
                 ))
             except Exception as e:
                 GLib.idle_add(lambda: self._window.toast_error(f'Drop failed: {e}'))
 
         threading.Thread(target=run, daemon=True).start()
+
+    def _refresh_connection_node(self, config_id: str):
+        node = self._connection_nodes.get(config_id)
+        if not node:
+            return
+        found, pos = self._root_store.find(node)
+        if found:
+            node.set_children_store(None)
+            self._root_store.remove(pos)
+            self._root_store.insert(pos, node)
 
     def _show_create_database_dialog(self, cfg, db):
         dialog = Adw.Dialog(title='Create Database')
