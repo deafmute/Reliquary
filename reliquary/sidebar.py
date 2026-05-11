@@ -540,11 +540,14 @@ class SidebarWidget(Gtk.Box):
         node = self._connection_nodes.get(config_id)
         if not node:
             return
-        found, pos = self._root_store.find(node)
-        if found:
-            node.set_children_store(None)
-            self._root_store.remove(pos)
-            self._root_store.insert(pos, node)
+        store = node.children_store()
+        if store is None:
+            return  # not expanded yet — will load fresh on next expand
+        db = self._window.get_connection(config_id)
+        if not db or not db.is_connected:
+            return
+        store.remove_all()
+        self._load_schemas_async(node, store, db, config_id)
 
     def _show_create_database_dialog(self, cfg, db):
         dialog = Adw.Dialog(title='Create Database')
